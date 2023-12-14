@@ -1,0 +1,10 @@
+version: '3'
+services:
+  ros2-vnc-slam:
+    container_name: ros2-vnc-slam
+    build: .
+    ports:
+      - '6080:80'
+    security_opt:
+      - seccomp:unconfined
+    shm_size: '512m'
