@@ -17,3 +17,14 @@ if [ "$USER" != "root" ]; then
     chown -R $USER:$USER ${HOME}
     [ -d "/dev/snd" ] && chgrp -R adm /dev/snd
 fi
+
+
+# VNC password
+VNC_PASSWORD=${PASSWORD:-ubuntu}
+
+# Setup VNC
+mkdir -p $HOME/.vnc
+echo $VNC_PASSWORD | vncpasswd -f > $HOME/.vnc/passwd
+chmod 600 $HOME/.vnc/passwd
+chown -R $USER:$USER $HOME
+sed -i "s/password = WebUtil.getConfigVar('password');/password = '$VNC_PASSWORD'/" /usr/lib/novnc/app/ui.js
