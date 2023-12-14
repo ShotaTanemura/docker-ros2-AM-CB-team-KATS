@@ -28,3 +28,13 @@ echo $VNC_PASSWORD | vncpasswd -f > $HOME/.vnc/passwd
 chmod 600 $HOME/.vnc/passwd
 chown -R $USER:$USER $HOME
 sed -i "s/password = WebUtil.getConfigVar('password');/password = '$VNC_PASSWORD'/" /usr/lib/novnc/app/ui.js
+
+# xstartup
+XSTARTUP_PATH=$HOME/.vnc/xstartup
+cat << EOF > $XSTARTUP_PATH
+#!/bin/sh
+unset DBUS_SESSION_BUS_ADDRESS
+mate-session
+EOF
+chown $USER:$USER $XSTARTUP_PATH
+chmod 755 $XSTARTUP_PATH
