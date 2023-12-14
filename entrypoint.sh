@@ -61,3 +61,27 @@ command=gosu '$USER' bash '$VNCRUN_PATH'
 [program:novnc]
 command=gosu '$USER' bash -c "websockify --web=/usr/lib/novnc 80 localhost:5901"
 EOF
+
+
+# Add terminator shortcut
+mkdir -p $HOME/Desktop
+cat << EOF > $HOME/Desktop/terminator.desktop
+[Desktop Entry]
+Name=Terminator
+Comment=Multiple terminals in one window
+TryExec=terminator
+Exec=terminator
+Icon=terminator
+Type=Application
+Categories=GNOME;GTK;Utility;TerminalEmulator;System;
+StartupNotify=true
+X-Ubuntu-Gettext-Domain=terminator
+X-Ayatana-Desktop-Shortcuts=NewWindow;
+Keywords=terminal;shell;prompt;command;commandline;
+[NewWindow Shortcut Group]
+Name=Open a New Window
+Exec=terminator
+TargetEnvironment=Unity
+EOF
+
+chown -R $USER:$USER $HOME/Desktop
