@@ -85,3 +85,7 @@ TargetEnvironment=Unity
 EOF
 
 chown -R $USER:$USER $HOME/Desktop
+
+# clearup
+PASSWORD=
+VNC_PASSWORD=
