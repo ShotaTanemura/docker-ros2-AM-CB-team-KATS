@@ -40,3 +40,6 @@ RUN sed -i "s/UI.initSetting('resize', 'off');/UI.initSetting('resize', 'remote'
 # Disable auto update and crash report
 RUN sed -i 's/Prompt=.*/Prompt=never/' /etc/update-manager/release-upgrades
 RUN sed -i 's/enabled=1/enabled=0/g' /etc/default/apport
+
+# Enable apt-get completion
+RUN rm /etc/apt/apt.conf.d/docker-clean
