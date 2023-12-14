@@ -45,4 +45,5 @@ RUN sed -i 's/enabled=1/enabled=0/g' /etc/default/apport
 RUN rm /etc/apt/apt.conf.d/docker-clean
 
 COPY ./entrypoint.sh /
+RUN chmod +x /entrypoint.sh
 ENTRYPOINT [ "/bin/bash", "-c", "/entrypoint.sh" ]

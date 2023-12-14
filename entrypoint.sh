@@ -89,3 +89,5 @@ chown -R $USER:$USER $HOME/Desktop
 # clearup
 PASSWORD=
 VNC_PASSWORD=
+
+exec /bin/tini -- supervisord -n -c /etc/supervisor/supervisord.conf
