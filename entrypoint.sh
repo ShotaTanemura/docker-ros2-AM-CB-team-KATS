@@ -49,3 +49,15 @@ else
     vncserver :1 -fg -geometry 1920x1080 -depth 24
 fi
 EOF
+
+# Supervisor
+CONF_PATH=/etc/supervisor/conf.d/supervisord.conf
+cat << EOF > $CONF_PATH
+[supervisord]
+nodaemon=true
+user=root
+[program:vnc]
+command=gosu '$USER' bash '$VNCRUN_PATH'
+[program:novnc]
+command=gosu '$USER' bash -c "websockify --web=/usr/lib/novnc 80 localhost:5901"
+EOF
