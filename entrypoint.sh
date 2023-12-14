@@ -18,7 +18,6 @@ if [ "$USER" != "root" ]; then
     [ -d "/dev/snd" ] && chgrp -R adm /dev/snd
 fi
 
-
 # VNC password
 VNC_PASSWORD=${PASSWORD:-ubuntu}
 
@@ -38,3 +37,15 @@ mate-session
 EOF
 chown $USER:$USER $XSTARTUP_PATH
 chmod 755 $XSTARTUP_PATH
+
+# vncserver launch
+VNCRUN_PATH=$HOME/.vnc/vnc_run.sh
+cat << EOF > $VNCRUN_PATH
+#!/bin/sh
+
+if [ $(uname -m) = "aarch64" ]; then
+    LD_PRELOAD=/lib/aarch64-linux-gnu/libgcc_s.so.1 vncserver :1 -fg -geometry 1920x1080 -depth 24
+else
+    vncserver :1 -fg -geometry 1920x1080 -depth 24
+fi
+EOF
