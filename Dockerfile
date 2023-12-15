@@ -97,7 +97,13 @@ RUN apt-get update -q && \
     colcon build --symlink-install
 
 # Install Gazebo
-RUN apt-get install -y ros-${ROS_DISTRO}-turtlebot3-simulations
+RUN apt-get update -q && \
+    apt-get install -y ros-${ROS_DISTRO}-turtlebot3-simulations
+
+# Install Navigation2
+RUN apt-get update -q && \
+    apt-get install -y \
+    ros-humble-navigation2 ros-humble-nav2-bringup
 
 COPY ./entrypoint.sh /
 RUN chmod +x /entrypoint.sh
