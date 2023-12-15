@@ -22,8 +22,8 @@ RUN apt-get update -q && \
 RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y \
         tigervnc-standalone-server tigervnc-common \
-        supervisor wget curl gosu git sudo python3-pip tini \
-        build-essential vim sudo lsb-release locales \
+        supervisor wget curl gosu git python3-pip tini \
+        build-essential vim lsb-release locales \
         bash-completion tzdata terminator && \
     apt-get autoclean && \
     apt-get autoremove && \
@@ -43,6 +43,38 @@ RUN sed -i 's/enabled=1/enabled=0/g' /etc/default/apport
 
 # Enable apt-get completion
 RUN rm /etc/apt/apt.conf.d/docker-clean
+
+# Install ROS
+ENV ROS_DISTRO humble
+# desktop or ros-base
+ARG INSTALL_PACKAGE=desktop
+
+# Setup locale
+RUN locale && \
+    apt-get update && apt-get install locales && \
+    locale-gen en_US en_US.UTF-8 && \
+    update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8 && \
+    export LANG=en_US.UTF-8 && \
+    locale
+
+# Ensure the Ubuntu Universe repository is enabled
+RUN apt-get install -y software-properties-common && \
+    add-apt-repository universe
+
+RUN apt-get update -q && \
+    apt-get install -y curl gnupg2 lsb-release && \
+    curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg && \
+    echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/ros2.list > /dev/null && \
+    apt-get update -q && \
+    DEBIAN_FRONTEND=noninteractive apt-get upgrade -y && \
+    apt-get install -y ros-${ROS_DISTRO}-${INSTALL_PACKAGE} \
+    python3-argcomplete \
+    python3-colcon-common-extensions \
+    python3-rosdep python3-vcstool && \
+    rosdep init && \
+    rm -rf /var/lib/apt/lists/*
+
+RUN rosdep update
 
 COPY ./entrypoint.sh /
 RUN chmod +x /entrypoint.sh
