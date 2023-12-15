@@ -76,6 +76,15 @@ RUN apt-get update -q && \
 
 RUN rosdep update
 
+# Add Google Cartographer and its related packages
+RUN apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y \
+        ros-humble-cartographer \
+        ros-humble-cartographer-rviz && \
+    apt-get autoclean && \
+    apt-get autoremove && \
+    rm -rf /var/lib/apt/lists/*
+
 # Install Turtlebot3
 RUN apt-get update -q && \
     apt-get install -y ros-humble-dynamixel-sdk && \
