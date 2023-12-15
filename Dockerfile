@@ -85,6 +85,20 @@ RUN apt-get update && \
     apt-get autoremove && \
     rm -rf /var/lib/apt/lists/*
 
+# Install Turtlebot3
+RUN apt-get update -q && \
+    apt-get install -y ros-humble-dynamixel-sdk && \
+    mkdir -p ~/ros2_ws/src && cd ~/ros2_ws/src/ && \
+    git clone -b humble-devel https://github.com/ROBOTIS-GIT/turtlebot3.git && \
+    cd ~/ros2_ws/ && \
+    source /opt/ros/humble/setup.bash && \
+    rosdep update && \
+    rosdep install --from-paths src --ignore-src --rosdistro $ROS_DISTRO -y && \
+    colcon build --symlink-install
+
+# Install Gazebo
+RUN apt-get install -y ros-${ROS_DISTRO}-turtlebot3-simulations
+
 COPY ./entrypoint.sh /
 RUN chmod +x /entrypoint.sh
 ENTRYPOINT [ "/bin/bash", "-c", "/entrypoint.sh" ]
