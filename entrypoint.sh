@@ -73,6 +73,12 @@ mkdir -p $HOME/.ros
 cp -r /root/.ros/rosdep $HOME/.ros/rosdep
 chown -R $USER:$USER $HOME/.ros
 
+# Turtlebot3 and Gazebo setup
+echo 'source ~/turtlebot3_ws/install/setup.bash' >> ~/.bashrc
+echo 'export GAZEBO_MODEL_PATH=$GAZEBO_MODEL_PATH:~/turtlebot3_ws/src/turtlebot3/turtlebot3_simulations/turtlebot3_gazebo/models' >> ~/.bashrc
+echo 'export TURTLEBOT3_MODEL=burger' >> ~/.bashrc
+source ~/.bashrc
+
 # Add terminator shortcut
 mkdir -p $HOME/Desktop
 cat << EOF > $HOME/Desktop/terminator.desktop
