@@ -108,3 +108,6 @@ RUN apt-get update -q && \
 COPY ./entrypoint.sh /
 RUN chmod +x /entrypoint.sh
 ENTRYPOINT [ "/bin/bash", "-c", "/entrypoint.sh" ]
+
+ENV USER ubuntu
+ENV PASSWD ubuntu
