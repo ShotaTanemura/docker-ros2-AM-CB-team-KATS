@@ -1,5 +1,9 @@
 FROM ubuntu:jammy-20231128
 
+ENV USER ubuntu
+ENV HOME /home/${USER}
+ENV PASSWD ubuntu
+
 # Use bash always
 SHELL ["/bin/bash", "-c"]
 
@@ -88,9 +92,9 @@ RUN apt-get update && \
 # Install Turtlebot3
 RUN apt-get update -q && \
     apt-get install -y ros-humble-dynamixel-sdk && \
-    mkdir -p ~/ros2_ws/src && cd ~/ros2_ws/src/ && \
+    mkdir -p /home/${USER}/ros2_ws/src && cd /home/${USER}/ros2_ws/src/ && \
     git clone -b humble-devel https://github.com/ROBOTIS-GIT/turtlebot3.git && \
-    cd ~/ros2_ws/ && \
+    cd /home/${USER}/ros2_ws/ && \
     source /opt/ros/humble/setup.bash && \
     rosdep update && \
     rosdep install --from-paths src --ignore-src --rosdistro $ROS_DISTRO -y && \
@@ -108,6 +112,3 @@ RUN apt-get update -q && \
 COPY ./entrypoint.sh /
 RUN chmod +x /entrypoint.sh
 ENTRYPOINT [ "/bin/bash", "-c", "/entrypoint.sh" ]
-
-ENV USER ubuntu
-ENV PASSWD ubuntu
