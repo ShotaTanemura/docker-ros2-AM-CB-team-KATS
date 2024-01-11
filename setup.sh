@@ -33,7 +33,9 @@ locale && \
 
 # Ensure the Ubuntu Universe repository is enabled
 sudo apt-get install -y software-properties-common && \
-    add-apt-repository universe
+    # add-apt-repository universe
+    sudo add-apt-repository "deb http://archive.ubuntu.com/ubuntu $(lsb_release -sc) universe" && \
+    sudo apt-get update
 
 # Install ROS2
 sudo apt-get update -q && \
