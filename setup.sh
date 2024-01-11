@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -eu
 
 # Upgrade OS
 apt-get update -q && \
