@@ -10,7 +10,7 @@ sudo apt-get update -q && \
 # Install essential packages
 sudo apt-get update && \
     DEBIAN_FRONTEND=noninteractive sudo apt-get install -y \
-        wget curlgit python3-pip \
+        wget curl git python3-pip \
         build-essential vim lsb-release locales \
         bash-completion tzdata terminator && \
     sudo apt-get autoclean && \
