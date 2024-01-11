@@ -39,7 +39,7 @@ sudo apt-get install -y software-properties-common && \
 sudo apt-get update -q && \
     sudo apt-get install -y curl gnupg2 lsb-release && \
     sudo curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg && \
-    sudo echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/ros2.list > /dev/null && \
+    sudo echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/ros2.list > /dev/null && \
     sudo apt-get update -q && \
     DEBIAN_FRONTEND=noninteractive sudo apt-get upgrade -y && \
     sudo apt-get install -y ros-${ROS_DISTRO}-${INSTALL_PACKAGE} \
